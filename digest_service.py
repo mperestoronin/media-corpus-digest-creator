@@ -2,8 +2,8 @@ from flask import Flask, request, jsonify
 import requests
 import os
 
-LLM_API_AUTH_USER = os.getenv("LLM_API_AUTH_USER", "ai")
-LLM_API_AUTH_PASS = os.getenv("LLM_API_AUTH_PASS", "northgard")
+LLM_API_AUTH_USER = os.getenv("LLM_API_AUTH_USER")
+LLM_API_AUTH_PASS = os.getenv("LLM_API_AUTH_PASS")
 
 app = Flask(__name__)
 
