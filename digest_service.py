@@ -1,6 +1,10 @@
 from flask import Flask, request, jsonify
 import requests
 import os
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 LLM_API_AUTH_USER = os.getenv("LLM_API_AUTH_USER")
 LLM_API_AUTH_PASS = os.getenv("LLM_API_AUTH_PASS")
@@ -9,6 +13,7 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST'])
 def generate_digest():
+    logger.info("Пришел запрос на создание дайджеста")
     data = request.get_json()
     if not data or "documents" not in data:
         return jsonify({"error": "Неверный формат запроса"}), 400
@@ -42,6 +47,7 @@ def generate_digest():
         }), response.status_code
 
     # Возвращаем результат работы модели как ответ на исходный POST запрос
+    logger.info("Дайджест отправляется на бекенд")
     return jsonify(response.json())
 
 if __name__ == '__main__':
