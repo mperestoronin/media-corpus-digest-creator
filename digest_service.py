@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 LLM_API_AUTH_USER = os.getenv("LLM_API_AUTH_USER")
 LLM_API_AUTH_PASS = os.getenv("LLM_API_AUTH_PASS")
 PROMPT = os.getenv("PROMPT")
+MODEL = os.getenv("MODEL")
 
 app = Flask(__name__)
 
@@ -30,7 +31,7 @@ def generate_digest():
         prompt = "\n\n".join(doc.get("summary", "") for doc in documents)
 
     payload = {
-        "model": "llama3:8b",
+        "model": MODEL,
         "prompt": prompt,
         "stream": False
     }
