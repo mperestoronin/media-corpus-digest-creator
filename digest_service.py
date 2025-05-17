@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 LLM_API_AUTH_USER = os.getenv("LLM_API_AUTH_USER")
 LLM_API_AUTH_PASS = os.getenv("LLM_API_AUTH_PASS")
+PROMPT = os.getenv("PROMPT")
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ def generate_digest():
     documents = data["documents"]
 
     # Собираем тексты новостей, разделяя их несколькими переносами строки
-    prompt = "Мне нужно, чтобы ты помог мне с созданием новостного дайджеста. Я дам тебе несколько статей или их кратких содержаний, а ты должен объединить их в один новостной дайджест, покрывающий все эти события. Чтобы человек мог почитать только этот дайджест,а не читать каждую новость по отдельности. В ответе выведи только сам текст дайджеста и ничего больше."
+    prompt = PROMPT
     prompt += "\n\n".join(doc.get("text", "") for doc in documents)
 
     # Если итоговый промпт слишком длинный, используем summary вместо text
