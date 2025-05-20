@@ -9,6 +9,7 @@ logger = logging.getLogger(__name__)
 LLM_API_AUTH_USER = os.getenv("LLM_API_AUTH_USER")
 LLM_API_AUTH_PASS = os.getenv("LLM_API_AUTH_PASS")
 PROMPT = os.getenv("PROMPT")
+INSTRUCTIONS = os.getenv("INSTRUCTIONS")
 MODEL = os.getenv("MODEL")
 
 app = Flask(__name__)
@@ -25,6 +26,7 @@ def generate_digest():
     # Собираем тексты новостей, разделяя их несколькими переносами строки
     prompt = PROMPT
     prompt += "\n\n".join(doc.get("text", "") for doc in documents)
+    prompt += "\n\n\n" + INSTRUCTIONS
 
     # Если итоговый промпт слишком длинный, используем summary вместо text
     if len(prompt) > 90000:
