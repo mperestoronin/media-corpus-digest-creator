@@ -18,7 +18,9 @@ app = Flask(__name__)
 def generate_digest():
     logger.info("Пришел запрос на создание дайджеста")
     data = request.get_json()
+    logger.info(data)
     if not data or "documents" not in data:
+        logger.info("Неверный формат запроса, возвращаю код 400")
         return jsonify({"error": "Неверный формат запроса"}), 400
 
     documents = data["documents"]
@@ -37,7 +39,7 @@ def generate_digest():
         "prompt": prompt,
         "stream": False
     }
-
+    logger.info("отправляю запрос к моделям")
     response = requests.post(
         "http://ai.nt.fyi/api/generate",
         json=payload,
@@ -45,6 +47,10 @@ def generate_digest():
     )
 
     if response.status_code != 200:
+        logger.info(jsonify({
+            "error": "Ошибка при вызове LLM API",
+            "details": response.text
+        }))
         return jsonify({
             "error": "Ошибка при вызове LLM API",
             "details": response.text
