@@ -47,6 +47,7 @@ def generate_digest():
     )
 
     if response.status_code != 200:
+        logger.info("Ошибка при вызове LLM API")
         logger.info(jsonify({
             "error": "Ошибка при вызове LLM API",
             "details": response.text
